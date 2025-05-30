@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using Data.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RRHHProyect.Models;
 
 namespace RRHHProyect.Controllers
@@ -7,15 +9,24 @@ namespace RRHHProyect.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDBContext _dbContext;
+        public HomeController(ApplicationDBContext dbContext, ILogger<HomeController> logger)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
         {
             return View();
+
+        }
+
+        public ActionResult Idiomas()
+        {
+            var Prueba = _dbContext.Idiomas;
+            return View(Prueba);
+
         }
 
         public IActionResult Privacy()

@@ -1,0 +1,48 @@
+﻿@model Models.Models.Puesto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Puesto</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Riesgo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Riesgo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Salario_Min)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Salario_Min)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Salario_Max)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Salario_Max)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ID_Puesto">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
