@@ -7,28 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Data.Data;
 using Models.Models;
-using Data.Repositories.Interfaces;
 
 namespace RRHHProyect.Controllers
 {
-    public class CompetenciasController : Controller
+    public class CapacitacionsController : Controller
     {
-        private readonly IUnitOfWork _UnitOfWork;
         private readonly ApplicationDBContext _context;
 
-        public CompetenciasController(ApplicationDBContext context, IUnitOfWork UnitOfWork)
+        public CapacitacionsController(ApplicationDBContext context)
         {
             _context = context;
-            _UnitOfWork = UnitOfWork;
         }
 
-        // GET: Competencias
-        public IActionResult Index()
+        // GET: Capacitacions
+        public async Task<IActionResult> Index()
         {
-            return View(_UnitOfWork.CompetenciasRepository.GetAll().ToList());
+            return View(await _context.Capacitaciones.ToListAsync());
         }
 
-        // GET: Competencias/Details/5
+        // GET: Capacitacions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,39 +33,39 @@ namespace RRHHProyect.Controllers
                 return NotFound();
             }
 
-            var competencia = await _context.Competencias
-                .FirstOrDefaultAsync(m => m.ID_Competencia == id);
-            if (competencia == null)
+            var capacitacion = await _context.Capacitaciones
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (capacitacion == null)
             {
                 return NotFound();
             }
 
-            return View(competencia);
+            return View(capacitacion);
         }
 
-        // GET: Competencias/Create
+        // GET: Capacitacions/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Competencias/Create
+        // POST: Capacitacions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID_Competencia,Nombre,Descripcion,Estado")] Competencia competencia)
+        public async Task<IActionResult> Create([Bind("Id,Descripcion,Nivel,FechaDesde,FechaHasta,Institucion")] Capacitacion capacitacion)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(competencia);
+                _context.Add(capacitacion);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(competencia);
+            return View(capacitacion);
         }
 
-        // GET: Competencias/Edit/5
+        // GET: Capacitacions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,22 +73,22 @@ namespace RRHHProyect.Controllers
                 return NotFound();
             }
 
-            var competencia = await _context.Competencias.FindAsync(id);
-            if (competencia == null)
+            var capacitacion = await _context.Capacitaciones.FindAsync(id);
+            if (capacitacion == null)
             {
                 return NotFound();
             }
-            return View(competencia);
+            return View(capacitacion);
         }
 
-        // POST: Competencias/Edit/5
+        // POST: Capacitacions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID_Competencia,Nombre,Descripcion,Estado")] Competencia competencia)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,Nivel,FechaDesde,FechaHasta,Institucion")] Capacitacion capacitacion)
         {
-            if (id != competencia.ID_Competencia)
+            if (id != capacitacion.Id)
             {
                 return NotFound();
             }
@@ -100,12 +97,12 @@ namespace RRHHProyect.Controllers
             {
                 try
                 {
-                    _context.Update(competencia);
+                    _context.Update(capacitacion);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CompetenciaExists(competencia.ID_Competencia))
+                    if (!CapacitacionExists(capacitacion.Id))
                     {
                         return NotFound();
                     }
@@ -116,10 +113,10 @@ namespace RRHHProyect.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(competencia);
+            return View(capacitacion);
         }
 
-        // GET: Competencias/Delete/5
+        // GET: Capacitacions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,34 +124,34 @@ namespace RRHHProyect.Controllers
                 return NotFound();
             }
 
-            var competencia = await _context.Competencias
-                .FirstOrDefaultAsync(m => m.ID_Competencia == id);
-            if (competencia == null)
+            var capacitacion = await _context.Capacitaciones
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (capacitacion == null)
             {
                 return NotFound();
             }
 
-            return View(competencia);
+            return View(capacitacion);
         }
 
-        // POST: Competencias/Delete/5
+        // POST: Capacitacions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var competencia = await _context.Competencias.FindAsync(id);
-            if (competencia != null)
+            var capacitacion = await _context.Capacitaciones.FindAsync(id);
+            if (capacitacion != null)
             {
-                _context.Competencias.Remove(competencia);
+                _context.Capacitaciones.Remove(capacitacion);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CompetenciaExists(int id)
+        private bool CapacitacionExists(int id)
         {
-            return _context.Competencias.Any(e => e.ID_Competencia == id);
+            return _context.Capacitaciones.Any(e => e.Id == id);
         }
     }
 }
